@@ -1,11 +1,32 @@
-import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Componente } from './interfaces/interfaces';
+import { DataService } from './services/data.service';
+import { IonApp, IonRouterOutlet, IonMenu, IonHeader,
+         IonToolbar, IonTitle, IonContent, IonList,
+         IonItem, IonIcon, IonMenuToggle } from '@ionic/angular/standalone';
+import { AsyncPipe, NgFor } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonApp, IonRouterOutlet],
+  styleUrls: ['app.component.scss'],
+  standalone: true,
+  imports: [
+    IonApp, IonRouterOutlet, IonMenu, IonHeader,
+    IonToolbar, IonTitle, IonContent, IonList,
+    IonItem, IonIcon, IonMenuToggle,
+    AsyncPipe, NgFor, RouterLink
+  ],
 })
-export class AppComponent {
-  constructor() {}
+export class AppComponent implements OnInit {
+
+  componentes!: Observable<Componente[]>;
+
+  constructor(private dataService: DataService) { }
+
+  ngOnInit() {
+    this.componentes = this.dataService.getMenuOpts();
+  }
 }
